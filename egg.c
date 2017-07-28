@@ -1,6 +1,6 @@
 #include "egg.h"
 
-static const int SECRET_FLOOR_LIMIT = 28;
+static const int SECRET_FLOOR_LIMIT = 387;
 
 struct _egg {
 	int id;
@@ -16,7 +16,7 @@ egg *lay_egg(void)
 }
 
 void destroy_egg(egg *e)
-{//Do this after egg cracks
+{
 	free(e);
 }
 
