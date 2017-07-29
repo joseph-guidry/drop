@@ -3,14 +3,11 @@
 #include <stddef.h>
 #include "egg.h"
 
-#define SMALL_GAP 1
-
 int get_next_floor(int current, int max, int eggs)
 {
 	unsigned int next_drop = 0;
 	//Ensure a minimum step to allow algorithm to complete.
 	next_drop = (max - current) / eggs;
-	//printf("next drop: %d \n", next_drop);
 	if (next_drop == 0)
 		return 1;
 	return next_drop;
@@ -70,15 +67,11 @@ int main(int argc, char ** argv)
 		else if ( (num_eggs > 1) )
 		{
 			printf("We have a few eggs to work with\n\n");
-			
-			//printf("Throwing egg #%d \n curr %d | max %d \n", (atoi(argv[2]) - num_eggs + 1), curr_floor, max_floor);
 			while ( !(egg_is_broken(new_egg)) && (curr_floor <= max_floor) )
 			{
 				//Print the current egg number.
-				printf("Throwing egg #%d \n curr %d | max %d \n", (atoi(argv[2]) - num_eggs + 1), curr_floor, max_floor);
+				printf("Throwing egg #%d from current floor: %d\n", (atoi(argv[2]) - num_eggs + 1), curr_floor);
 				next_drop = get_next_floor(curr_floor, max_floor, num_eggs);
-				//printf("next drop in loop: %d \n", next_drop);
-				
 				egg_drop_from_floor(new_egg, (curr_floor + next_drop));
 				
 				if ( egg_is_broken(new_egg) )
@@ -102,10 +95,11 @@ int main(int argc, char ** argv)
 					curr_floor += next_drop;
 					if (next_drop < 1 && (curr_floor < max_floor))
 					{
+						//Ensure a minimum step of 1 is taken.
 						curr_floor += get_max( ((max_floor - curr_floor)/2), 1);
-						//printf("here %d \n", curr_floor);
 					}
 				}
+				//How to know when max floor reached and eggs still remaining.
 				else if ( curr_floor == max_floor)
 				{
 					num_eggs = 1;
@@ -118,6 +112,9 @@ int main(int argc, char ** argv)
 			destroy_egg(new_egg);
 		}
 	}
-	printf("We are safe from the secret floor: %d after %d %s\n",
-				  curr_floor, num_guess, num_guess > 1? "guesses":"guess");
+	
+	//Final output of secret floor if found, or max floor.
+	printf("We are %s floor: %d after %d %s\n", 
+			curr_floor == max_floor ? "at least safe from":"safe from the secret",
+			curr_floor, num_guess, num_guess > 1 ? "guesses":"guess");
 }

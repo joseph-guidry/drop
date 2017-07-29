@@ -16,14 +16,16 @@ egg_drop.o: egg_drop.c egg.o
 	gcc -c egg_drop.c -o egg_drop.o
 
 egg.o: egg.c egg.h
-	gcc -c egg.c -o egg.o
+	gcc -c egg.c -o egg.o 
 
-debug: 
-	gcc $(CFLAGS) -g $(OBJECTS) -o egg_drop 
+debug: $(BIN)
+	gcc $(CFLAGS) -g $(OBJECTS) -o egg_drop
 
-profile: 
+profile: $(BIN)
 	gcc $(CFLAGS) -pg $(OBJECTS) -o egg_drop
 
+test: $(BIN)
+	curl https://raw.githubusercontent.com/tclasen/egg_drop/master/test.sh -o test.sh && chmod 755 test.sh &&./test.sh
 
 clean:
 	rm -f egg_drop $(OBJECTS)
