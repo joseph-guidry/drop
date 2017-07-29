@@ -112,7 +112,6 @@ int main(int argc, char ** argv)
 			destroy_egg(new_egg);
 		}
 	}
-	
 	//Final output of secret floor if found, or max floor.
 	printf("We are %s floor: %d after %d %s\n", 
 			curr_floor == max_floor ? "at least safe from":"safe from the secret",
